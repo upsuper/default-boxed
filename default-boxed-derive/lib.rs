@@ -2,7 +2,7 @@ extern crate proc_macro;
 
 use proc_macro2::TokenStream;
 use quote::quote;
-use syn::{parse_quote, DeriveInput, Data, Fields, Type};
+use syn::{parse_quote, Data, DeriveInput, Fields, Type};
 
 #[proc_macro_derive(DefaultBoxed)]
 pub fn derive_default_boxed(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
