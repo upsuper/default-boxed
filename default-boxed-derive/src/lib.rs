@@ -26,7 +26,7 @@ fn derive(mut input: DeriveInput) -> TokenStream {
                 let ty = array.elem;
                 let len = array.len;
                 quote! {
-                    let #name = &mut (*ptr).#name.as_mut_ptr();
+                    let #name = (*ptr).#name.as_mut_ptr();
                     for i in 0usize..#len {
                         <#ty as default_boxed::DefaultBoxed>::default_in_place(#name.offset(i as isize));
                     }
