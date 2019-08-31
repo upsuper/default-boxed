@@ -50,3 +50,22 @@ fn test_packed_struct() {
     assert_eq!(foo.b[1].0, 2);
     assert_eq!(foo.c.0, 3);
 }
+
+#[test]
+fn test_generics() {
+    #[derive(DefaultBoxed)]
+    struct Foo<T> {
+        a: T,
+        b: [T; 100],
+    }
+
+    struct X(u32);
+    impl Default for X {
+        fn default() -> X {
+            X(10)
+        }
+    }
+
+    let foo = Foo::<X>::default_boxed();
+    assert_eq!(foo.a.0, 10);
+}
