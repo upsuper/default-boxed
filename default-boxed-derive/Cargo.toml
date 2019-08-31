@@ -1,0 +1,15 @@
+[package]
+name = "default-boxed-derive"
+version = "0.1.0"
+description = "Custom derive for default-boxed"
+authors = ["Xidorn Quan <me@upsuper.org>"]
+edition = "2018"
+license = "MIT"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1.0.2"
+quote = "1.0.2"
+syn = "1.0.5"
