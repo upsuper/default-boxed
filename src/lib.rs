@@ -1,3 +1,13 @@
+// TODO: It is possible to make this crate `no_std`, but we need to figure out how to work around
+//  doc tests. Maybe just wait for `cfg(doctest)` to be stabilized.
+// #![no_std]
+
+extern crate alloc;
+
+use alloc::alloc::{alloc as alloc_raw, handle_alloc_error, Layout};
+use alloc::boxed::Box;
+use core::ptr;
+
 pub use default_boxed_derive::DefaultBoxed;
 
 /// Helper trait to create a boxed instance of the given type with a default value for each field.
@@ -12,12 +22,18 @@ pub use default_boxed_derive::DefaultBoxed;
 pub trait DefaultBoxed {
     /// Create a boxed instance with default value for each field.
     fn default_boxed() -> Box<Self> where Self: Sized {
-        let mut v = Vec::with_capacity(1);
-        let raw = v.as_mut_ptr();
-        std::mem::forget(v);
+        let layout = Layout::new::<Self>();
         unsafe {
-            Self::default_in_place(raw);
-            Box::from_raw(raw)
+            if layout.size() == 0 {
+                return Box::from_raw(ptr::NonNull::<Self>::dangling().as_ptr());
+            }
+            let raw = alloc_raw(layout) as *mut Self;
+            if raw.is_null() {
+                handle_alloc_error(layout)
+            } else {
+                Self::default_in_place(raw);
+                Box::from_raw(raw)
+            }
         }
     }
 
@@ -34,6 +50,6 @@ pub trait DefaultBoxed {
 
 impl<T: Default> DefaultBoxed for T {
     unsafe fn default_in_place(ptr: *mut Self) {
-        std::ptr::write(ptr, Default::default());
+        ptr::write(ptr, Default::default());
     }
 }

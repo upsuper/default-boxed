@@ -69,3 +69,12 @@ fn test_generics() {
     let foo = Foo::<X>::default_boxed();
     assert_eq!(foo.a.0, 10);
 }
+
+#[test]
+fn test_zero_sized() {
+    #[derive(DefaultBoxed)]
+    struct Foo {
+        t: (),
+    }
+    let _ = Foo::default_boxed();
+}
