@@ -1,4 +1,5 @@
 // Please keep the code below in sync with README.md
+// When cfg(doctest) gets stabilized, we can use doc-comment for running test in README.md.
 
 use default_boxed::DefaultBoxed;
 
