@@ -78,3 +78,19 @@ fn test_zero_sized() {
     }
     let _ = Foo::default_boxed();
 }
+
+#[test]
+fn test_unit_like_struct() {
+    #[derive(DefaultBoxed)]
+    struct Foo;
+    let _ = Foo::default_boxed();
+}
+
+#[test]
+fn test_tuple_struct() {
+    #[derive(DefaultBoxed)]
+    struct Foo([u32; 4 * 1024 * 1024], [u16; 4 * 1024 * 1024]);
+    let foo = Foo::default_boxed();
+    assert_eq!(foo.0[1024], 0);
+    assert_eq!(foo.1[2048], 0);
+}

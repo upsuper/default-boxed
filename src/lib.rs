@@ -12,7 +12,7 @@ pub use default_boxed_derive::DefaultBoxed;
 
 /// Helper trait to create a boxed instance of the given type with a default value for each field.
 ///
-/// This trait can be derived for structs with named fields.
+/// This trait can be derived for structs.
 ///
 /// To derive this trait, each field needs to also implement this trait, but all types which
 /// implements `Default` implements this trait via the blanket `impl` already.
