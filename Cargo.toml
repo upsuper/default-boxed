@@ -14,4 +14,4 @@ azure-devops = { project = "upsuper/upsuper", pipeline = "default-boxed", build 
 [workspace]
 
 [dependencies]
-default-boxed-derive = { version = "0.1.3", path = "default-boxed-derive" }
+default-boxed-derive = { version = "0.1.3", path = "derive" }
