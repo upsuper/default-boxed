@@ -3,6 +3,7 @@ name = "default-boxed"
 version = "0.1.2"
 description = "Helper trait to help create large struct on heap directly"
 authors = ["Xidorn Quan <me@upsuper.org>"]
+repository = "https://github.com/upsuper/default-boxed"
 edition = "2018"
 license = "MIT"
 
