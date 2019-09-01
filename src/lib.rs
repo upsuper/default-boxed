@@ -9,9 +9,9 @@ pub use default_boxed_derive::DefaultBoxed;
 ///
 /// In addition, if a field is an array, only the item type needs to implement this trait, and each
 /// item would be initialized separately.
-pub trait DefaultBoxed: Sized {
+pub trait DefaultBoxed {
     /// Create a boxed instance with default value for each field.
-    fn default_boxed() -> Box<Self> {
+    fn default_boxed() -> Box<Self> where Self: Sized {
         let mut v = Vec::with_capacity(1);
         let raw = v.as_mut_ptr();
         std::mem::forget(v);
