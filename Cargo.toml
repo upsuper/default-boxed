@@ -6,6 +6,9 @@ authors = ["Xidorn Quan <me@upsuper.org>"]
 edition = "2018"
 license = "MIT"
 
+[badges]
+azure-devops = { project = "upsuper/upsuper", pipeline = "default-boxed", build = "1" }
+
 [workspace]
 
 [dependencies]
