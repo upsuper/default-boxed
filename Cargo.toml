@@ -1,6 +1,6 @@
 [package]
 name = "default-boxed"
-version = "0.1.1"
+version = "0.1.2"
 description = "Helper trait to help create large struct on heap directly"
 authors = ["Xidorn Quan <me@upsuper.org>"]
 edition = "2018"
@@ -12,4 +12,4 @@ azure-devops = { project = "upsuper/upsuper", pipeline = "default-boxed", build 
 [workspace]
 
 [dependencies]
-default-boxed-derive = { version = "0.1.1", path = "default-boxed-derive" }
+default-boxed-derive = { version = "0.1.2", path = "default-boxed-derive" }
