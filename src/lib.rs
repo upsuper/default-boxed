@@ -21,7 +21,10 @@ pub use default_boxed_derive::DefaultBoxed;
 /// item would be initialized separately.
 pub trait DefaultBoxed {
     /// Create a boxed instance with default value for each field.
-    fn default_boxed() -> Box<Self> where Self: Sized {
+    fn default_boxed() -> Box<Self>
+    where
+        Self: Sized,
+    {
         let layout = Layout::new::<Self>();
         unsafe {
             if layout.size() == 0 {
