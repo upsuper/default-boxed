@@ -9,10 +9,8 @@ without going through stack.
 Similar to the unstable `box` syntax,
 it semantically doesn't require creating the whole struct on stack then moving to heap,
 and thus unlike [`copyless`][copyless] or [`boxext`][boxext],
-it doesn't rely on optimization to eliminate the extra copy,
+it doesn't rely on optimization to eliminate building the struct on stack,
 which may still face stack overflow on debug build when creating large struct.
-
-This currently only works with structs with named fields.
 
 [copyless]: https://crates.io/crates/copyless
 [boxext]: https://crates.io/crates/boxext
