@@ -11,7 +11,6 @@ license = "MIT"
 readme = "README.md"
 
 [badges]
-azure-devops = { project = "upsuper/upsuper", pipeline = "default-boxed", build = "1" }
 
 [workspace]
 

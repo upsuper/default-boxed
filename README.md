@@ -1,6 +1,6 @@
 # default-boxed
 
-[![Build Status](https://dev.azure.com/upsuper/upsuper/_apis/build/status/default-boxed?branchName=master)](https://dev.azure.com/upsuper/upsuper/_build/latest?definitionId=1&branchName=master)
+[![CI](https://github.com/upsuper/default-boxed/workflows/CI/badge.svg)](https://github.com/upsuper/default-boxed/actions)
 [![Crates.io](https://img.shields.io/crates/v/default-boxed.svg)](https://crates.io/crates/default-boxed)
 
 Helper trait to create instances of large structs with default value on heap directly
