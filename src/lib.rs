@@ -1,6 +1,4 @@
-// TODO: It is possible to make this crate `no_std`, but we need to figure out how to work around
-//  doc tests. Maybe just wait for `cfg(doctest)` to be stabilized.
-// #![no_std]
+#![cfg_attr(not(doctest), no_std)]
 
 extern crate alloc;
 

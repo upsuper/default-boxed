@@ -1,11 +1,11 @@
 [package]
 name = "default-boxed"
-version = "0.1.6"
+version = "0.1.7"
 description = "Helper trait to help create large struct on heap directly"
 authors = ["Xidorn Quan <me@upsuper.org>"]
 repository = "https://github.com/upsuper/default-boxed"
 keywords = ["box", "allocator", "memcpy"]
-categories = ["memory-management"]
+categories = ["memory-management", "no-std"]
 edition = "2018"
 license = "MIT"
 readme = "README.md"
