@@ -27,6 +27,20 @@ fn test_nested_array() {
 }
 
 #[test]
+fn test_tuple() {
+    #[derive(DefaultBoxed)]
+    struct Foo {
+        a: u32,
+        b: ([u32; 1024 * 1024], [u32; 1024 * 1024]),
+    }
+
+    let foo = Foo::default_boxed();
+    assert_eq!(foo.a, 0);
+    assert_eq!(foo.b.0[128 * 1024], 0);
+    assert_eq!(foo.b.1[256 * 1024], 0);
+}
+
+#[test]
 fn test_packed_struct() {
     struct A(u8);
     impl Default for A {

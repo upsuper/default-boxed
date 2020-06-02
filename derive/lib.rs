@@ -106,6 +106,10 @@ fn wrap_maybe_uninit(ty: &Type) -> TokenStream {
             let len = &arr.len;
             quote! { [#elem; #len] }
         }
+        Type::Tuple(tuple) => {
+            let elems = tuple.elems.iter().map(|elem| wrap_maybe_uninit(elem));
+            quote! { (#(#elems),*) }
+        }
         _ => quote! { ::core::mem::MaybeUninit<#ty> },
     }
 }
@@ -117,6 +121,15 @@ fn write_to_uninit(var: &TokenStream, ty: &Type) -> TokenStream {
             let inner = write_to_uninit(&item, &arr.elem);
             quote! { #var.iter_mut().for_each(|#item| { #inner }); }
         }
+        Type::Tuple(tuple) => tuple
+            .elems
+            .iter()
+            .enumerate()
+            .map(|(i, elem)| {
+                let idx = Index::from(i);
+                write_to_uninit(&quote!(#var.#idx), elem)
+            })
+            .collect(),
         ty => quote! {
             <#ty as ::default_boxed::DefaultBoxed>::default_in_place(#var.as_mut_ptr());
         },
