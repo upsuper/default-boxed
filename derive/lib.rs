@@ -62,25 +62,16 @@ fn derive(mut input: DeriveInput) -> TokenStream {
         Fields::Unnamed(fields) => fields.unnamed.into_iter(),
         Fields::Unit => Punctuated::<_, Comma>::new().into_iter(),
     };
-    let write_default: TokenStream = fields.enumerate().map(|(i, field)| {
-        let name = field.ident.map_or_else(
-            || Index::from(i).to_token_stream(),
-            |ident| ident.to_token_stream(),
-        );
-        match field.ty {
-            Type::Array(array) => {
-                let ty = array.elem;
-                quote! {{
-                    for item in uninit.#name.iter_mut() {
-                        <#ty as ::default_boxed::DefaultBoxed>::default_in_place(item.as_mut_ptr());
-                    }
-                }}
-            }
-            ty => quote!{
-                <#ty as ::default_boxed::DefaultBoxed>::default_in_place(uninit.#name.as_mut_ptr());
-            }
-        }
-    }).collect();
+    let write_default: TokenStream = fields
+        .enumerate()
+        .map(|(i, field)| {
+            let name = field.ident.map_or_else(
+                || Index::from(i).to_token_stream(),
+                |ident| ident.to_token_stream(),
+            );
+            write_to_uninit(&quote!(uninit.#name), &field.ty)
+        })
+        .collect();
 
     if !input.generics.params.is_empty() {
         let mut where_clause = input.generics.where_clause.take();
@@ -116,5 +107,18 @@ fn wrap_maybe_uninit(ty: &Type) -> TokenStream {
             quote! { [#elem; #len] }
         }
         _ => quote! { ::core::mem::MaybeUninit<#ty> },
+    }
+}
+
+fn write_to_uninit(var: &TokenStream, ty: &Type) -> TokenStream {
+    match ty {
+        Type::Array(arr) => {
+            let item = quote!(item);
+            let inner = write_to_uninit(&item, &arr.elem);
+            quote! { #var.iter_mut().for_each(|#item| { #inner }); }
+        }
+        ty => quote! {
+            <#ty as ::default_boxed::DefaultBoxed>::default_in_place(#var.as_mut_ptr());
+        },
     }
 }
