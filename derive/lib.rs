@@ -83,7 +83,7 @@ fn derive(mut input: DeriveInput) -> TokenStream {
         let predicates = &mut where_clause.get_or_insert(parse_quote!(where)).predicates;
         for param in input.generics.type_params() {
             let ident = &param.ident;
-            predicates.push(parse_quote!(#ident: default_boxed::DefaultBoxed));
+            predicates.push(parse_quote!(#ident: ::default_boxed::DefaultBoxed));
         }
         input.generics.where_clause = where_clause;
     }
