@@ -16,3 +16,6 @@ readme = "README.md"
 
 [dependencies]
 default-boxed-derive = { version = "0.1.5", path = "derive" }
+
+[dev-dependencies]
+trybuild = "1.0.28"
