@@ -13,11 +13,15 @@ pub fn derive_default_boxed(input: proc_macro::TokenStream) -> proc_macro::Token
 }
 
 fn derive(mut input: DeriveInput) -> TokenStream {
-    let name = input.ident;
+    let name = &input.ident;
     let generics = &input.generics;
     let data = match input.data {
         Data::Struct(data) => data,
-        _ => panic!("only structs are supported"),
+        _ => {
+            return quote_spanned! { input.span() =>
+                compile_error!("only structs are supported");
+            };
+        }
     };
 
     // Generate a struct with all fields wrapped with `MaybeUninit`.

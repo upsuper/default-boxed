@@ -1,0 +1,5 @@
+error: only structs are supported
+ --> $DIR/union.rs:4:1
+  |
+4 | union Foo {
+  | ^^^^^
