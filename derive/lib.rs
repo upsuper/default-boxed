@@ -1,8 +1,9 @@
 extern crate proc_macro;
 
 use proc_macro2::{Ident, Span, TokenStream};
-use quote::{quote, ToTokens};
+use quote::{quote, quote_spanned, ToTokens};
 use syn::punctuated::Punctuated;
+use syn::spanned::Spanned;
 use syn::token::Comma;
 use syn::{parse_quote, Data, DeriveInput, Fields, GenericParam, Index, Type};
 
@@ -130,8 +131,11 @@ fn write_to_uninit(var: &TokenStream, ty: &Type) -> TokenStream {
                 write_to_uninit(&quote!(#var.#idx), elem)
             })
             .collect(),
-        ty => quote! {
-            <#ty as ::default_boxed::DefaultBoxed>::default_in_place(#var.as_mut_ptr());
-        },
+        ty => {
+            let call = quote_spanned! { ty.span() =>
+                <#ty as ::default_boxed::DefaultBoxed>::default_in_place
+            };
+            quote! { #call(#var.as_mut_ptr()); }
+        }
     }
 }
