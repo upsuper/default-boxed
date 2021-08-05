@@ -40,6 +40,9 @@ let foo = Foo::default_boxed();
 assert_eq!(foo.a.0, 29);
 assert_eq!(foo.b[128 * 1024].0, 29);
 assert_eq!(foo.c[256 * 1024], 0);
+
+let foo_arr = Foo::default_boxed_array::<16>();
+assert_eq!(foo_arr[15].a.0, 29);
 ```
 
 <!-- cargo-sync-readme end -->

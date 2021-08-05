@@ -35,6 +35,9 @@
 //! assert_eq!(foo.a.0, 29);
 //! assert_eq!(foo.b[128 * 1024].0, 29);
 //! assert_eq!(foo.c[256 * 1024], 0);
+//!
+//! let foo_arr = Foo::default_boxed_array::<16>();
+//! assert_eq!(foo_arr[15].a.0, 29);
 //! ```
 
 extern crate alloc;
@@ -71,6 +74,34 @@ pub trait DefaultBoxed {
             } else {
                 Self::default_in_place(raw);
                 Box::from_raw(raw)
+            }
+        }
+    }
+
+    /// Create a boxed array of the given size with default value of the type.
+    ///
+    /// ```
+    /// use default_boxed::DefaultBoxed;
+    /// let arr = u32::default_boxed_array::<32>();
+    /// assert_eq!(arr, Box::new([0; 32]));
+    /// ```
+    fn default_boxed_array<const N: usize>() -> Box<[Self; N]>
+    where
+        Self: Sized,
+    {
+        let layout = Layout::new::<[Self; N]>();
+        unsafe {
+            if layout.size() == 0 {
+                return Box::from_raw(ptr::NonNull::<[Self; N]>::dangling().as_ptr());
+            }
+            let raw = alloc_raw(layout) as *mut Self;
+            if raw.is_null() {
+                handle_alloc_error(layout)
+            } else {
+                for i in 0..N as isize {
+                    Self::default_in_place(raw.offset(i));
+                }
+                Box::from_raw(raw as *mut [Self; N])
             }
         }
     }
