@@ -36,13 +36,10 @@ impl Default for Bar {
     }
 }
 
-#[test]
-fn test_basic() {
-    let foo = Foo::default_boxed();
-    assert_eq!(foo.a.0, 29);
-    assert_eq!(foo.b[128 * 1024].0, 29);
-    assert_eq!(foo.c[256 * 1024], 0);
-}
+let foo = Foo::default_boxed();
+assert_eq!(foo.a.0, 29);
+assert_eq!(foo.b[128 * 1024].0, 29);
+assert_eq!(foo.c[256 * 1024], 0);
 ```
 
 <!-- cargo-sync-readme end -->
