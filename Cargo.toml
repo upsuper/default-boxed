@@ -17,5 +17,5 @@ readme = "README.md"
 [dependencies]
 default-boxed-derive = { version = "0.1.5", path = "derive" }
 
-[dev-dependencies]
+[target.'cfg(not(miri))'.dev-dependencies]
 trybuild = "1.0.28"
