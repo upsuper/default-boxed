@@ -5,4 +5,3 @@ error[E0277]: the trait bound `Bar: Default` is not satisfied
   |        ^^^ the trait `Default` is not implemented for `Bar`
   |
   = note: required because of the requirements on the impl of `DefaultBoxed` for `Bar`
-  = note: required by `default_in_place`
