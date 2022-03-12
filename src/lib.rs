@@ -17,11 +17,16 @@
 //! ```
 //! use default_boxed::DefaultBoxed;
 //!
+//! # #[cfg(not(miri))]
+//! const BASE: usize = 1024;
+//! # #[cfg(miri)]
+//! # const BASE: usize = 1;
+//!
 //! #[derive(DefaultBoxed)]
 //! struct Foo {
 //!     a: Bar,
-//!     b: [Bar; 1024 * 1024],
-//!     c: [u32; 1024 * 1024],
+//!     b: [Bar; 1024 * BASE],
+//!     c: [u32; 1024 * BASE],
 //! }
 //!
 //! struct Bar(u16);
@@ -33,8 +38,8 @@
 //!
 //! let foo = Foo::default_boxed();
 //! assert_eq!(foo.a.0, 29);
-//! assert_eq!(foo.b[128 * 1024].0, 29);
-//! assert_eq!(foo.c[256 * 1024], 0);
+//! assert_eq!(foo.b[128 * BASE].0, 29);
+//! assert_eq!(foo.c[256 * BASE], 0);
 //!
 //! let foo_arr = Foo::default_boxed_array::<16>();
 //! assert_eq!(foo_arr[15].a.0, 29);
