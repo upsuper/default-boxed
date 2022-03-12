@@ -31,6 +31,22 @@ jobs:
         with:
           command: test
 
+  miri:
+    name: Miri test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+          components: miri
+      - name: Run tests via Miri
+        env:
+          MIRIFLAGS: "-Zrandomize-layout"
+        run: cargo miri test
+
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
