@@ -1,6 +1,6 @@
 [package]
 name = "default-boxed"
-version = "0.1.11"
+version = "0.2.0"
 description = "Helper trait to help create large struct on heap directly"
 authors = ["Xidorn Quan <me@upsuper.org>"]
 repository = "https://github.com/upsuper/default-boxed"
@@ -15,7 +15,7 @@ readme = "README.md"
 [workspace]
 
 [dependencies]
-default-boxed-derive = { version = "0.1.5", path = "derive" }
+default-boxed-derive = { version = "0.2.0", path = "derive" }
 
 [target.'cfg(not(miri))'.dev-dependencies]
 trybuild = "1.0.28"

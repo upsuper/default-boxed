@@ -62,7 +62,11 @@ pub use default_boxed_derive::DefaultBoxed;
 ///
 /// In addition, if a field is an array, only the item type needs to implement this trait, and each
 /// item would be initialized separately.
-pub trait DefaultBoxed {
+///
+/// # Safety
+///
+/// Implementations must ensure that `default_in_place` initializes the value on the given pointer.
+pub unsafe trait DefaultBoxed {
     /// Create a boxed instance with default value for each field.
     fn default_boxed() -> Box<Self>
     where
@@ -122,7 +126,7 @@ pub trait DefaultBoxed {
     unsafe fn default_in_place(ptr: *mut Self);
 }
 
-impl<T: Default> DefaultBoxed for T {
+unsafe impl<T: Default> DefaultBoxed for T {
     unsafe fn default_in_place(ptr: *mut Self) {
         ptr::write(ptr, Default::default());
     }

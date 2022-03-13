@@ -52,7 +52,7 @@ fn derive(mut input: DeriveInput) -> TokenStream {
 
     let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
     quote! {
-        impl#impl_generics default_boxed::DefaultBoxed for #name#ty_generics
+        unsafe impl#impl_generics default_boxed::DefaultBoxed for #name#ty_generics
         #where_clause
         {
             unsafe fn default_in_place(ptr: *mut Self) {

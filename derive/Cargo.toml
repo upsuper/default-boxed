@@ -1,6 +1,6 @@
 [package]
 name = "default-boxed-derive"
-version = "0.1.7"
+version = "0.2.0"
 description = "Custom derive for default-boxed"
 authors = ["Xidorn Quan <me@upsuper.org>"]
 repository = "https://github.com/upsuper/default-boxed"
